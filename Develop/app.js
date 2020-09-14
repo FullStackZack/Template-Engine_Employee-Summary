@@ -9,10 +9,97 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const Choices = require("inquirer/lib/objects/choices");
 
+const initialQstns = () => [
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "typeof",
+            message: "What best describes your current title?",
+            choices: ["Manager", "Engineer", "Intern"]
+        }
+    ])
+]
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+const managerQstns = () => [
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "Manager's Name:"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Manager's email address:"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What's their employee ID?"
+        },
+        {
+            type: "input",
+            name: "officeNum",
+            message: "What is their office phone number?"
+        }
+    ]) 
+];
+
+const engineerQstns = () => [
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "Engineer's name:"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Email address?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What's their employee ID# ?"
+        },
+        {
+            type: "input",
+            name: "github",
+            message: "What's their Github username?"
+        }
+    ])
+];
+
+const internQstns = () => [
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "Intern's name:"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Email address?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What's their employee ID# ?"
+        },
+        {
+            type: "input",
+            name: "school",
+            message: "Where does the intern study?"
+        }
+    ])  
+];
+
+render(["name", "id", "email", "officeNum", "github", "school"], {
+    
+});
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -32,4 +119,4 @@ const render = require("./lib/htmlRenderer");
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// for the provided `render` function to work
