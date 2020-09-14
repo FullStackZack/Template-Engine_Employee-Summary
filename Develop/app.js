@@ -21,14 +21,35 @@ const Choices = require("inquirer/lib/objects/choices");
     ]).then((res) => {
         if(res.typeof === "Manager") {
             managerQstns();
-        };
+        }
         if(res.typeof === "Engineer") {
-            engineerQstns();
-        };
+            return engineerQstns();
+        }
         if(res.typeof === "Intern") {
             internQstns();
-        };
+        }
     })
+
+const restartQstns = () => [
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "typeof",
+            message: "Who do we still need to add?",
+            choices: ["Manager", "Engineer", "Intern"]
+        }
+    ]).then((res) => {
+        if(res.typeof === "Manager") {
+            managerQstns();
+        }
+        if(res.typeof === "Engineer") {
+            engineerQstns();
+        }
+        if(res.typeof === "Intern") {
+            internQstns();
+        }
+    })
+];  
 
 const managerQstns = () => [
     inquirer.prompt([
@@ -51,8 +72,20 @@ const managerQstns = () => [
             type: "input",
             name: "officeNum",
             message: "What is their office phone number?"
+        },
+        {
+            type: "checkbox",
+            name: "yesorno",
+            message: "Still adding team members?",
+            choices: ["yes", "no"]
         }
-    ]) 
+    ]).then(() => {
+        if("yes") {
+            restartQstns();
+        } else {
+            console.log("We're all set! Nice Job")
+        }
+    }) 
 ];
 
 const engineerQstns = () => [
@@ -76,9 +109,21 @@ const engineerQstns = () => [
             type: "input",
             name: "github",
             message: "What's their Github username?"
+        },
+        {
+            type: "checkbox",
+            name: "yesorno",
+            message: "Still adding team members?",
+            choices: ["yes", "no"]
         }
-    ])
-];
+    ]).then(() => {
+        if("yes") {
+            restartQstns();
+        } else {
+            console.log("We're all set! Nice Job")
+        }
+    }) 
+]
 
 const internQstns = () => [
     inquirer.prompt([
@@ -101,13 +146,25 @@ const internQstns = () => [
             type: "input",
             name: "school",
             message: "Where does the intern study?"
+        },
+        {
+            type: "checkbox",
+            name: "yesorno",
+            message: "Still adding team members?",
+            choices: ["yes", "no"]
         }
-    ])  
-];
+    ]).then(() => {
+        if("yes") {
+            restartQstns();
+        } else {
+            console.log("We're all set! Nice Job")
+        }
+    })  
+]
 
-//render(["name", "id", "email", "officeNum", "github", "school"], {
-
-//});
+render("name", "email", "id", "officeNum", "github"), {
+    
+}
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -127,4 +184,4 @@ const internQstns = () => [
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work
+// for the provided `render` function to work'}'
