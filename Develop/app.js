@@ -11,48 +11,16 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const Choices = require("inquirer/lib/objects/choices");
 
-    inquirer.prompt([
-        {
-            type: "list",
-            name: "typeof",
-            message: "What best describes your current title?",
-            choices: ["Manager", "Engineer", "Intern"]
-        }
-    ]).then((res) => {
-        if(res.typeof === "Manager") {
-            managerQstns();
-        }
-        if(res.typeof === "Engineer") {
-            return engineerQstns();
-        }
-        if(res.typeof === "Intern") {
-            internQstns();
-        }
-    })
+const teamArray = [];
 
-const restartQstns = () => [
-    inquirer.prompt([
-        {
-            type: "list",
-            name: "typeof",
-            message: "Who do we still need to add?",
-            choices: ["Manager", "Engineer", "Intern"]
-        }
-    ]).then((res) => {
-        if(res.typeof === "Manager") {
-            managerQstns();
-        }
-        if(res.typeof === "Engineer") {
-            engineerQstns();
-        }
-        if(res.typeof === "Intern") {
-            internQstns();
-        }
-    })
-];  
+function init() {
+    addManager();
+    team_options();
+}
 
-const managerQstns = () => [
-    inquirer.prompt([
+const addManager = () => {
+    
+    const managerQstns = inquirer.prompt([
         {
             type: "input",
             name: "name",
@@ -73,23 +41,38 @@ const managerQstns = () => [
             name: "officeNum",
             message: "What is their office phone number?"
         },
-        {
-            type: "checkbox",
-            name: "yesorno",
-            message: "Still adding team members?",
-            choices: ["yes", "no"]
-        }
-    ]).then(() => {
-        if("yes") {
-            restartQstns();
-        } else {
-            console.log("We're all set! Nice Job")
-        }
-    }) 
-];
+    ]);
 
-const engineerQstns = () => [
+    const managerArr = new Manager(managerQstns.name, managerQstns.email, managerQstns.id, managerQstns.officeNum);
+    teamArray.push(managerArr);
+    team_options();
+};
+
+const team_options = () => {
     inquirer.prompt([
+        {
+            type: "list",
+            name: "team",
+            message: "Let's pick our team!",
+            choices: ["Engineer", "Intern", "No Room"]
+        }
+    ]);
+    switch(team_options.team) {
+        case "Engineer":
+          return addEngineer();
+            break;
+        case "Intern":
+          return addIntern();
+            break;
+        default:
+            console.log("Let's check out the squad!");
+            break;
+    }
+}
+
+const addEngineer = () => {
+
+    const engQstns = inquirer.prompt([
         {
             type: "input",
             name: "name",
@@ -109,28 +92,20 @@ const engineerQstns = () => [
             type: "input",
             name: "github",
             message: "What's their Github username?"
-        },
-        {
-            type: "checkbox",
-            name: "yesorno",
-            message: "Still adding team members?",
-            choices: ["yes", "no"]
         }
-    ]).then(() => {
-        if("yes") {
-            restartQstns();
-        } else {
-            console.log("We're all set! Nice Job")
-        }
-    }) 
-]
+    ]);
+    const engineerArr = new Engineer(engQstns.name, engQstns.email, engQstns.id, engQstns.github);
+    teamArray.push(engineerArr);
+    team_options();
+};
 
-const internQstns = () => [
-    inquirer.prompt([
+const addIntern = () => {
+    
+    const internQstns = inquirer.prompt([
         {
             type: "input",
             name: "name",
-            message: "Intern's name:"
+            message: "Intern's Name:"
         },
         {
             type: "input",
@@ -140,32 +115,20 @@ const internQstns = () => [
         {
             type: "input",
             name: "id",
-            message: "What's their employee ID# ?"
+            message: "Do they have an employee ID yet? If so, what is it?"
         },
         {
             type: "input",
             name: "school",
-            message: "Where does the intern study?"
+            message: "Where are you currently studying?"
         },
-        {
-            type: "checkbox",
-            name: "yesorno",
-            message: "Still adding team members?",
-            choices: ["yes", "no"]
-        }
-    ]).then(() => {
-        if("yes") {
-            restartQstns();
-        } else {
-            console.log("We're all set! Nice Job")
-        }
-    })  
-]
+    ]);
+    const internArr = new Intern(internQstns.name, internQstns.email, internQstns.id, internQstns.school);
+    teamArray.push(internArr);
+    team_options();
+};
 
-render("name", "email", "id", "officeNum", "github"), {
-    
-}
-
+module.exports = init
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
