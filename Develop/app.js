@@ -11,124 +11,154 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const Choices = require("inquirer/lib/objects/choices");
 
+const mgrCard = require("./templates/manager.html");
+const engCard = require("./templates/engineer.html");
+const intCard = require("./templates/intern.html");
+
 const teamArray = [];
 
-function init() {
-    addManager();
-    team_options();
-}
+const init = () => {
+    inquirer
+      .prompt([
+          {
+            type: "input",
+            name: "manager-name",
+            message: "What's the Manager's name?"
+          },
+          {
+            type: "input",
+            name: "manager-email",
+            message: "What's the Manager's email?"
+          },
+          {
+            type: "input",
+            name: "mgr-id",
+            message: "What is the Manager's employee ID# ?"
+          },
+          {
+            type: "input",
+            name: "mgr-phone",
+            message: "What is the Manager's office phone number?"
+          }
+      ]).then(res => {
 
-const addManager = () => {
-    
-    const managerQstns = inquirer.prompt([
-        {
-            type: "input",
-            name: "name",
-            message: "Manager's Name:"
-        },
-        {
-            type: "input",
-            name: "email",
-            message: "Manager's email address:"
-        },
-        {
-            type: "input",
-            name: "id",
-            message: "What's their employee ID?"
-        },
-        {
-            type: "input",
-            name: "officeNum",
-            message: "What is their office phone number?"
-        },
-    ]);
+        if (name === " ") {
+            console.log("You are required to answer. Please respond!")
+        };
 
-    const managerArr = new Manager(managerQstns.name, managerQstns.email, managerQstns.id, managerQstns.officeNum);
-    teamArray.push(managerArr);
-    team_options();
+        const manager = new Manager(res.manager-name, res.manager-email, res.mgr-id, res.mgr-phone)
+        const HtmlMgrCard = mgrCard(manager);
+        teamArray.push(HtmlMgrCard);
+
+        addToTeam();
+
+      }) 
 };
 
-const team_options = () => {
-    inquirer.prompt([
-        {
-            type: "list",
-            name: "team",
-            message: "Let's pick our team!",
-            choices: ["Engineer", "Intern", "No Room"]
-        }
-    ]);
-    switch(team_options.team) {
-        case "Engineer":
-          return addEngineer();
-            break;
-        case "Intern":
-          return addIntern();
-            break;
-        default:
-            console.log("Let's check out the squad!");
-            break;
-    }
+const addToTeam = () => {
+    inquirer
+      .prompt([
+          {
+              type: "list",
+              name: "add2team",
+              message: "Do we need anyone else?",
+              choices: ["Engineer", "Intern", "No. We're all set."]
+          }
+      ]).then(answers => {
+          switch (answers.add2team) {
+            case "Engineer": {
+                addEngineer();
+                break;
+            }
+            case "Intern": {
+                addIntern();
+                break;
+            }
+            default:
+                console.log("Awesome! Let's see how your team stacks up now!") 
+          }
+      })
 }
 
 const addEngineer = () => {
+    inquirer
+      .prompt([
+          {
+            type: "input",
+            name: "eng-name",
+            message: "What's the Engineer's name?"
+          },
+          {
+            type: "input",
+            name: "eng-email",
+            message: "What's the Engineer's email?"
+          },
+          {
+            type: "input",
+            name: "eng-id",
+            message: "What about their employee ID# ?"
+          },
+          {
+            type: "input",
+            name: "eng-github",
+            message: "What is the Engineer's Github username?"
+          }
+      ]).then(res => {
 
-    const engQstns = inquirer.prompt([
-        {
-            type: "input",
-            name: "name",
-            message: "Engineer's name:"
-        },
-        {
-            type: "input",
-            name: "email",
-            message: "Email address?"
-        },
-        {
-            type: "input",
-            name: "id",
-            message: "What's their employee ID# ?"
-        },
-        {
-            type: "input",
-            name: "github",
-            message: "What's their Github username?"
-        }
-    ]);
-    const engineerArr = new Engineer(engQstns.name, engQstns.email, engQstns.id, engQstns.github);
-    teamArray.push(engineerArr);
-    team_options();
+        if (name === " ") {
+            console.log("You are required to answer. Please respond!")
+        };
+
+        const engineer = new Engineer(res.eng-name, res.eng-email, res.eng-id, res.eng-github);
+        const HtmlEngCard = engCard(engineer);
+        teamArray.push(HtmlEngCard);
+
+        addToTeam();
+
+      });
 };
 
 const addIntern = () => {
-    
-    const internQstns = inquirer.prompt([
-        {
+    inquirer
+      .prompt([
+          {
             type: "input",
-            name: "name",
-            message: "Intern's Name:"
-        },
-        {
+            name: "int-name",
+            message: "What's the Intern's name?"
+          },
+          {
             type: "input",
-            name: "email",
-            message: "Email address?"
-        },
-        {
+            name: "int-email",
+            message: "What's the Intern's email?"
+          },
+          {
             type: "input",
-            name: "id",
-            message: "Do they have an employee ID yet? If so, what is it?"
-        },
-        {
+            name: "intern-id",
+            message: "What about their employee ID# ?"
+          },
+          {
             type: "input",
-            name: "school",
-            message: "Where are you currently studying?"
-        },
-    ]);
-    const internArr = new Intern(internQstns.name, internQstns.email, internQstns.id, internQstns.school);
-    teamArray.push(internArr);
-    team_options();
+            name: "int-skool",
+            message: "Where does the Intern currently study?"
+          }
+      ]).then(res => {
+        if (name === " ") {
+            console.log("You are required to answer. Please respond!")
+        };
+
+        const intern = new Intern(res.int-name, res.int-email, res.intern-id, res.int-skool);
+        const HtmlIntCard = engCard(intern);
+        teamArray.push(HtmlIntCard);
+
+        addToTeam();
+
+      });
 };
 
-module.exports = init
+const generateTeam() {}
+
+init();
+
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
