@@ -11,7 +11,6 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const Choices = require("inquirer/lib/objects/choices");
 
-const initialQstns = () => [
     inquirer.prompt([
         {
             type: "list",
@@ -19,8 +18,17 @@ const initialQstns = () => [
             message: "What best describes your current title?",
             choices: ["Manager", "Engineer", "Intern"]
         }
-    ])
-]
+    ]).then((res) => {
+        if(res.typeof === "Manager") {
+            managerQstns();
+        };
+        if(res.typeof === "Engineer") {
+            engineerQstns();
+        };
+        if(res.typeof === "Intern") {
+            internQstns();
+        };
+    })
 
 const managerQstns = () => [
     inquirer.prompt([
@@ -97,9 +105,9 @@ const internQstns = () => [
     ])  
 ];
 
-render(["name", "id", "email", "officeNum", "github", "school"], {
-    
-});
+//render(["name", "id", "email", "officeNum", "github", "school"], {
+
+//});
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
