@@ -19,6 +19,7 @@ This is a team generator command line application. The application will prompt t
 ## Usage
 When prompted, answer the questions regarding employees for your team.
 
+Link to Live Demo:
 https://drive.google.com/file/d/16GZ0y7C3YR066u0Jr885C1zHVyJMEGxB/view
 
 ## Contributing
