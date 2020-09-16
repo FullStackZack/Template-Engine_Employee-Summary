@@ -9,7 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-//const Choices = require("inquirer/lib/objects/choices");
+const Choices = require("inquirer/lib/objects/choices");
 
 const employees = [];
 
@@ -73,7 +73,7 @@ const addToTeam = () => {
                 console.log("Awesome! Let's see how your team stacks up now!")
               
 
-                fs.writeFile(outputPath, function(err) {
+                fs.writeFile(outputPath, fs.readFileSync("./templates/main.html"), function(err) {
                   if (err) throw err;
                 })
 
