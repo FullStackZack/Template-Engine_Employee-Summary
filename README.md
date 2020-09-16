@@ -19,7 +19,7 @@ This is a team generator command line application. The application will prompt t
 ## Usage
 When prompted, answer the questions regarding employees for your team.
 
-<iframe src="https://drive.google.com/file/d/16GZ0y7C3YR066u0Jr885C1zHVyJMEGxB/preview" width="640" height="480"></iframe>
+https://drive.google.com/file/d/16GZ0y7C3YR066u0Jr885C1zHVyJMEGxB/view
 
 ## Contributing
 None
