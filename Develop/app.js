@@ -42,6 +42,7 @@ const addManager = () => {
       ]).then(res => {
 
         const manager = new Manager(res.name, res.email, res.id, res.officeNumber);
+        employees.push(manager);
 
         console.log(`${res.name} has been added!`);
 
@@ -70,12 +71,12 @@ const addToTeam = () => {
                 break;
             }
             default:
-                console.log("Awesome! Let's see how your team stacks up now!")
+                console.log("Awesome! Let's see how your team stacks up now!");
+                console.log(employees);
               
-
-                fs.writeFile(outputPath, fs.readFileSync("./templates/main.html"), function(err) {
-                  if (err) throw err;
-                })
+                //fs.writeFile(outputPath, fs.readFileSync("./templates/main.html"), function(err) {
+                  //if (err) throw err;
+                //})
 
                 break;
           }
@@ -108,6 +109,7 @@ const addEngineer = () => {
       ]).then(res => {
 
         const engineer = new Engineer(res.name, res.email, res.id, res.github);
+        employees.push(engineer);
 
         console.log(`${res.name} has been added!`);
 
@@ -142,6 +144,7 @@ const addIntern = () => {
       ]).then(res => {
 
         const intern = new Intern(res.name, res.email, res.id, res.school);
+        employees.push(intern);
 
         console.log(`${res.name} has been added!`);
 
