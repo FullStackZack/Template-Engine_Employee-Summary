@@ -9,13 +9,14 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const Choices = require("inquirer/lib/objects/choices");
-
-
+//const Choices = require("inquirer/lib/objects/choices");
 
 const employees = [];
 
 const addManager = () => {
+
+  console.log("First, let's add your manager!")
+
     inquirer
       .prompt([
           {
@@ -40,8 +41,9 @@ const addManager = () => {
           }
       ]).then(res => {
 
-        const manager = new Manager(res.name, res.email, res.id, res.officeNumber)
-        employees.push(manager);
+        const manager = new Manager(res.name, res.email, res.id, res.officeNumber);
+
+        console.log(`${res.name} has been added!`);
 
         addToTeam();
 
@@ -69,8 +71,12 @@ const addToTeam = () => {
             }
             default:
                 console.log("Awesome! Let's see how your team stacks up now!")
-                render(employees);
-                generateTeam();
+              
+
+                fs.writeFile(outputPath, function(err) {
+                  if (err) throw err;
+                })
+
                 break;
           }
       })
@@ -101,12 +107,9 @@ const addEngineer = () => {
           }
       ]).then(res => {
 
-        if (name === " ") {
-            console.log("You are required to answer. Please respond!")
-        };
-
         const engineer = new Engineer(res.name, res.email, res.id, res.github);
-        employees.push(engineer);
+
+        console.log(`${res.name} has been added!`);
 
         addToTeam();
 
@@ -137,12 +140,10 @@ const addIntern = () => {
             message: "Where does the Intern currently study?"
           }
       ]).then(res => {
-        if (name === " ") {
-            console.log("You are required to answer. Please respond!")
-        };
 
         const intern = new Intern(res.name, res.email, res.id, res.school);
-        employees.push(intern);
+
+        console.log(`${res.name} has been added!`);
 
         addToTeam();
 
