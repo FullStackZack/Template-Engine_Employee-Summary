@@ -4,16 +4,12 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-const util = require("util");
-
-//const readFileAsync = util.promisify(fs.readFile);
-//const writeFileAsync = util.promisify(fs.writeFile);
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const Choices = require("inquirer/lib/objects/choices");
+//const Choices = require("inquirer/lib/objects/choices");
 
 const employees = [];
 
@@ -78,7 +74,7 @@ const addToTeam = () => {
                 console.log("Awesome! Let's see how your team stacks up now!");
                 console.log(employees);
               
-                fs.writeFile(outputPath, fs.readFileAsync("./templates/main.html"), function(err) {
+                fs.writeFile(outputPath, render(employees), function(err) {
                   if (err) throw err;
                 })
 
@@ -114,10 +110,6 @@ const addEngineer = () => {
 
         const engineer = new Engineer(res.name, res.email, res.id, res.github);
         employees.push(engineer);
-
-        //fs.appendFileSync("./templates/engineer.html", function(err) {
-          //if (err) throw err;
-        //})
 
         console.log(`${res.name} has been added!`);
 
